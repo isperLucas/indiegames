@@ -116,14 +116,13 @@ class Usuario {
 			$cst->bindParam(':senha', $this->senha, PDO::PARAM_STR);
 			$cst->execute();
 			if($cst->rowCount() == 0){
-                $arr = array('error' => "Usuário não cadastrado");
+                $arr = array('error' => "1");
                 echo json_encode($arr);
 			}else{
 				session_start();
 				$rst = $cst->fetch();
 				$_SESSION['logado'] = "sim";
 				$_SESSION['user'] = $rst['email'];
-				//header("Location: /usuario.php");
                 $arr = array('error' => 0);
                 echo json_encode($arr);
 			}
@@ -133,8 +132,8 @@ class Usuario {
 	}
 	
     function UserLogado($dado){
-		$cst = $this->con->conectar()->prepare("SELECT `idFuncionario`, `nome`, `email` FROM `funcionario` WHERE `idFuncionario` = :idFunc;");
-		$cst->bindParam(':idFunc', $dado, PDO::PARAM_INT);
+		$cst = $this->con->conectar()->prepare("SELECT `nome`, `email` FROM `usuario` WHERE `email` = :email");
+		$cst->bindParam(':email', $dado, PDO::PARAM_INT);
 		$cst->execute();
 		$rst = $cst->fetch();
 		$_SESSION['nome'] = $rst['nome'];
@@ -142,7 +141,7 @@ class Usuario {
 	
 	function sairUser(){
 		session_destroy();
-		header ('location: login');
+		header ('location: index.php');
 	}
     
 }
