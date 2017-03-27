@@ -20,7 +20,7 @@ include "templates/topo.php";
 </div>
 
 <div class="container-fluid text-center">
-    <h3>Jogos em Destaque </h3>
+    <br><h3>Jogos em Destaque </h3><br>
     
     <div class="col-xs-12 col-sm-6 col-md-3">
         <div class="thumbnail">
@@ -47,10 +47,17 @@ include "templates/topo.php";
 
     <div class="col-xs-12 col-sm-6 col-md-3">
         <div class="thumbnail">
-             <a href="#"><img src="img/jogo3.png" class="img-responsive" style="width:100%" alt="Image"></img>
-            <p>Labirinto Cinza</p></a> 
+             <a href="#"><img src="img/jogo4.png" class="img-responsive" style="width:100%" alt="Image"></img>
+            <p>Malarque X</p></a> 
         </div>
     </div>
 </div>
+
+
+<div class="container text-center">    
+  <h3> Cadastre-se para postar e baixar jogos Indie </h3><br>
+   <button class="btn btn-default">Cadastrar</button><br>
+  </div>
+	</div><br><br>
 
 <?php include "templates/footer.php";?>
