@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   
 <!-- Style Css -->   
-<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/styles.css?uheu">
     
 <!-- Scripts -->   
 <script src="js/script.js"></script>
@@ -41,17 +41,17 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>                        
                 </button>
-                <a class="navbar-brand" href="#">Jogos</a>
+                <a class="navbar-static-top" href="#"><img  src="img/logov4.png"  height="52px"></a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">Desenvolvedores</a></li>
-                    <li><a href="#">Cadastrar</a></li>
+                    <li><a href="#">Início</a></li>
+                    <li><a href="#">Sobre</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right" style="margin-right: 10px;">
                     <li id="btnModalCad" data-toggle="modal" data-target="#modalCad"><a href="#"><span class="glyphicon glyphicon-user"></span> Cadastrar</a></li>
                     <ul class="nav navbar-nav navbar-right">
-                    <li id="btnModalLog" data-toggle="modal" data-target="#modalLog"><a href="#"><span class="glyphicon glyphicon-user"></span> Entrar</a></li>
+                    <li id="btnModalLog" data-toggle="modal" data-target="#modalLog"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Entrar</a></li>
                     </ul>
                 </ul>    
             </div>
