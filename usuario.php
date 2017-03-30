@@ -7,8 +7,42 @@ include "templates/topoL.php";
     <div class="col-sm-3 well">
       <div class="well">
         <p><a href="#">Meu perfil</p>
-        <img src="img\avatarexemplo.png" class="img-circle" height="65" width="65" alt="Avatar">
+        <?php
+        $localft = "usuarios/".$_SESSION['id']."/uf/".$_SESSION['img_profile'];?>
+        <img src="<?php
+                    if(file_exists($localft)){
+                        echo $localft;
+                    }else{
+                        echo "img/perfilDefault.jpg";
+                    }                     
+                  
+                  ?>" id="imgPerfil" class="img-circle" height="65" width="65" alt="Avatar">    
+       <br>    
+        <button onClick="carregaImg()" type="button" class="btn btn-xs btn-info btn-lg" data-toggle="modal" data-target="#modalFT_perfil">Carregar foto</button>    
       </div>
+        <!-- Modal foto perfil-->
+        <div id="modalFT_perfil" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <form method="post" enctype="multipart/form-data" id="form_ftPerfil">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Carregar foto de perfil</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                          <img id="blah" src="<?php echo "usuarios/".$_SESSION['id']."/uf/".$_SESSION['img_profile']; ?>" alt="your image" accept='image/*' width="250px">
+                        </div>
+                        <input class="btn btn-primary" type='file' name="imgInp" id="imgInp">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-info" class="attFoto" type="submit">Atualizar foto</button>
+                    </div>
+                </form>  
+            </div>
+          </div>
+        </div>
       <div class="well">
         <p><a href="#">Biografia</a></p>
         <p>
@@ -194,7 +228,51 @@ include "templates/topoL.php";
     </div>
   </div>
 </div>
+        
+<?php include "templates/footer.php" ?>
+        
+<script>
 
-<?php
-include "templates/footer.php";
-?>
+    $("#imgInp").change(function(){
+    readURL(this);
+});
+        $("#form_ftPerfil").submit(function (e) {
+            e.preventDefault();
+                var formData = new FormData(this);
+
+    $.ajax({
+        url: "ajaxUploadFt.php",
+        type: 'POST',
+        data: formData,
+        dataType: 'json',
+        success: function (data) {
+            $('#imgPerfil').attr('src', data.img_profile+"?img="+(Math.random().toString(36).substr(2, 9)));
+            $('#icone_profile').attr('src', data.img_profile+"?img="+(Math.random().toString(36).substr(2, 9)));
+            $('#modalFT_perfil').modal('hide');
+            
+            
+        },
+        cache: false,
+        contentType: false,
+        processData: false,
+        xhr: function() {  // Custom XMLHttpRequest
+            var myXhr = $.ajaxSettings.xhr();
+            if (myXhr.upload) { // Avalia se tem suporte a propriedade upload
+                myXhr.upload.addEventListener('progress', function (evt) {
+                    console.log(evt.lengthComputable); // false
+                    if (evt.lengthComputable) {
+                        var percentComplete = evt.loaded / evt.total;
+                       console.log(Math.round(percentComplete * 100) + "%");
+                    }
+                }, false);
+            }
+        return myXhr;
+        }
+    });
+
+});
+
+</script>        
+
+</body>
+</html>
