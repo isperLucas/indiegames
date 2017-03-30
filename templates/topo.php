@@ -11,16 +11,17 @@
 <script src="bootstrap/dist/js/jquery.js"></script>  
 
 <!-- Bootstrap Java Script -->
-<script src="bootstrap/dist/js/bootstrap.js"></script>    
+<script src="bootstrap/dist/js/bootstrap.js"></script> 
+<script src="js/validator.js"></script>      
 
 <!-- Bootstrap Fonts --> 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   
 <!-- Style Css -->   
-<link rel="stylesheet" href="css/styles.css?uheu">
+<link rel="stylesheet" href="css/styles.css">
     
 <!-- Scripts -->   
-<script src="js/script.js"></script>
+<script src="js/script.js?sdfsdf"></script>
     
 <link rel="shortcut icon" href="img/logov4.ico" type="image/x-icon" />    
 
@@ -41,17 +42,17 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>                        
                 </button>
-                <a class="navbar-static-top" href="#"><img  src="img/logov4.png"  height="52px"></a>
+                <a class="navbar-brand" href="#">Jogos</a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">Início</a></li>
-                    <li><a href="#">Sobre</a></li>
+                    <li><a href="#">Desenvolvedores</a></li>
+                    <li><a href="#">Cadastrar</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right" style="margin-right: 10px;">
                     <li id="btnModalCad" data-toggle="modal" data-target="#modalCad"><a href="#"><span class="glyphicon glyphicon-user"></span> Cadastrar</a></li>
                     <ul class="nav navbar-nav navbar-right">
-                    <li id="btnModalLog" data-toggle="modal" data-target="#modalLog"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Entrar</a></li>
+                    <li id="btnModalLog" data-toggle="modal" data-target="#modalLog"><a href="#"><span class="glyphicon glyphicon-user"></span> Entrar</a></li>
                     </ul>
                 </ul>    
             </div>
@@ -68,29 +69,36 @@
                     <h5><span class="glyphicon glyphicon-lock"></span> Cadastro</h5>
                 </div>
                 <div class="modal-body" style="padding:40px 50px;">
-                    <form role="form"  method="post" name="formu">
+                    <form role="form"  method="post" name="formu" data-toggle="validator" >
                         <div class="form-group">
                             <label for="usrname"><span class="glyphicon glyphicon-user"></span> Nome Completo:</label>
-                            <input type="text" class="form-control" name="nome" id="usrname" placeholder="Nome">
+                            <input type="text" class="form-control" name="nome" id="usrname" placeholder="Nome" required>
+                            
                         </div>
                         <div class="form-group">
                             <label for="nickname"><span class="glyphicon glyphicon-user"></span> Nome de Usuário:</label>
-                            <input type="text" class="form-control" name="nick" id="nickname" placeholder="Usuário">
+                            <input type="text" class="form-control" name="nick" id="nickname" placeholder="Usuário" required>
                         </div>
                         <div class="form-group">
                             <label for="email"><span class="glyphicon glyphicon-envelope"></span> Email:</label>
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+                            <input type="email" class="form-control" data-error="Por favor, informe um e-mail correto." required name="email" onblur="verificaBlur()" onKeyPress="verificaEnter(event)" id="email" placeholder="Email">
+                            <div class="help-block with-errors"></div>
+                            <div class="alert alert-danger" style="display:none" id="error_emailExistente">
+                                Email já cadastrado
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Senha</label>
-                            <input type="password" class="form-control" name="senha" id="psw" placeholder="password">
+                            <input type="password" class="form-control" data-minlength="6" name="senha" id="psw" placeholder="Password"  required>
+                             <span class="help-block">Mínimo de seis (6) digitos</span>
                         </div>
                         <div class="form-group">
                             <label for="psw"><span class="glyphicon glyphicon-eye-open"></span>Confirmar Senha</label>
-                            <input type="password" class="form-control" name="confirmarSenha" id="psw" placeholder="password">
+                            <input type="password" class="form-control" name="confirmarSenha" data-match="#psw" data-match-error="Atenção! As senhas não estão iguais." id="psw" placeholder="password" required >
+                             <div class="help-block with-errors"></div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" onclick="return validar();" class="btn btn-default btn-block entrar" name="btnCadastro">  <span class="glyphicon glyphicon-off"></span> Entrar</button>
+                            <button type="submit" id="btnCad" class="btn btn-default btn-block entrar" name="btnCadastro">  <span class="glyphicon glyphicon-off"></span> Cadastrar</button>
                         </div>
                     </form>
                 </div>
