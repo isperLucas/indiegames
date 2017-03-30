@@ -54,14 +54,21 @@ class Usuario {
             $this->nick= $dados['nick'];
             $this->email = $dados['email'];
             $this->senha = sha1($dados['senha']);
-            $this->dt_cadastro = date('d-m-Y');
-            $cst = $this->con->conectar()->prepare("INSERT INTO `usuario` (nome, nick, email, senha, dt_cadastro) VALUES (:nome, :nick, :email, :senha, :dt_cadastro);");
+            $this->dt_cadastro = date('d/m/Y');
+            $con = $this->con->conectar();
+            $cst = $con->prepare("INSERT INTO `usuario` (nome, nick, email, senha, dt_cadastro) VALUES (:nome, :nick, :email, :senha, :dt_cadastro);");
             $cst->bindParam(":nome", $this->nome);
             $cst->bindParam(":nick", $this->nick);
             $cst->bindParam(":email", $this->email);
             $cst->bindParam(":senha", $this->senha);
             $cst->bindParam(":dt_cadastro", $this->dt_cadastro);
             $cst->execute();
+            
+            $idUser = $con->lastInsertId(); 
+            
+            $_SESSION['id'] = $idUser;
+            mkdir("usuarios/".$_SESSION['id']."/uf", 0777, true);
+            
             header('location: usuario.php');
             
         } catch (PDOException $ex) {
@@ -116,25 +123,24 @@ class Usuario {
 			$cst->bindParam(':senha', $this->senha, PDO::PARAM_STR);
 			$cst->execute();
 			if($cst->rowCount() == 0){
-                $arr = array('error' => "Usuário não cadastrado");
+                $arr = array('error' => "1");
                 echo json_encode($arr);
 			}else{
 				session_start();
 				$rst = $cst->fetch();
 				$_SESSION['logado'] = "sim";
 				$_SESSION['user'] = $rst['email'];
-				//header("Location: /usuario.php");
                 $arr = array('error' => 0);
                 echo json_encode($arr);
 			}
 		}catch(PDOException $e){
 			return 'Error: '.$e->getMassage();
-		}
+        }
 	}
 	
     function UserLogado($dado){
-		$cst = $this->con->conectar()->prepare("SELECT `idFuncionario`, `nome`, `email` FROM `funcionario` WHERE `idFuncionario` = :idFunc;");
-		$cst->bindParam(':idFunc', $dado, PDO::PARAM_INT);
+		$cst = $this->con->conectar()->prepare("SELECT `nome`, `email` FROM `usuario` WHERE `email` = :email");
+		$cst->bindParam(':email', $dado, PDO::PARAM_INT);
 		$cst->execute();
 		$rst = $cst->fetch();
 		$_SESSION['nome'] = $rst['nome'];
@@ -142,7 +148,7 @@ class Usuario {
 	
 	function sairUser(){
 		session_destroy();
-		header ('location: login');
+		header ('location: index.php');
 	}
     
 }
