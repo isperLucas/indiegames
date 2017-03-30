@@ -1,6 +1,5 @@
-<?php
-include "templates/topoL.php";
-?>
+<?php include "templates/topoL.php"?>
+
 								<!-- LADO ESQUERDO -->
 <div class="container text-center">    
   <div class="row">
