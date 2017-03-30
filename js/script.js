@@ -1,3 +1,78 @@
+function verificaEmailBlur(e){
+    var code = (e.keyCode ? e.keyCode : e.which);
+    if(code == 13) { //Enter keycode
+     alert('enter press');
+    }
+   Event.preventDefault();
+    $('#error_emailExistente').hide();
+    var email = $('#email').val();
+
+    var request = $.ajax({
+        url: "ajaxCadastro.php",
+        method: "POST",
+        data: { emailUser_cadastro : email},
+        dataType: "json"
+    });
+    
+    request.done(function( data ) {
+        if(data.error){
+          $('#error_emailExistente').fadeIn();
+          $("#btnCad").addClass("disabled"); 
+        }else{
+            $("#btnCad").removeClass("disabled");     
+        }
+    }); 
+}
+
+function verificaEmailEnter(e){
+    var code = (e.keyCode ? e.keyCode : e.which);
+    if(code == 13) { //Enter keycode
+     alert('enter press');
+    }
+   Event.preventDefault();
+    $('#error_emailExistente').hide();
+    var email = $('#email').val();
+
+    var request = $.ajax({
+        url: "ajaxCadastro.php",
+        method: "POST",
+        data: { emailUser_cadastro : email},
+        dataType: "json"
+    });
+    
+    request.done(function( data ) {
+        if(data.error){
+          $('#error_emailExistente').fadeIn();
+          $("#btnCad").addClass("disabled"); 
+        }else{
+            $("#btnCad").removeClass("disabled");     
+        }
+    }); 
+}
+
+function readURL(input) {
+
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#blah').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$("#imgInp").change(function(){
+    alert("ola");
+    readURL(this);
+});
+
+function carregaImg(){
+    var url = $('#imgPerfil').attr('src');
+    $('#uploadImg').attr('src', url);
+}
+
 // Valida Login
 function validacaoLogin(){
     $('#errorLogin').hide();
