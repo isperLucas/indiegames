@@ -1,10 +1,4 @@
-function verificaEmailBlur(e){
-    var code = (e.keyCode ? e.keyCode : e.which);
-    if(code == 13) { //Enter keycode
-     alert('enter press');
-    }
-   Event.preventDefault();
-    $('#error_emailExistente').hide();
+function verificaBlur(){
     var email = $('#email').val();
 
     var request = $.ajax({
@@ -24,31 +18,31 @@ function verificaEmailBlur(e){
     }); 
 }
 
-function verificaEmailEnter(e){
-    var code = (e.keyCode ? e.keyCode : e.which);
+function verificaEnter(event){
+    var code = event.keyCode;
     if(code == 13) { //Enter keycode
-     alert('enter press');
-    }
-   Event.preventDefault();
-    $('#error_emailExistente').hide();
-    var email = $('#email').val();
+        event.preventDefault();
+        $('#error_emailExistente').hide();
+        var email = $('#email').val();
 
-    var request = $.ajax({
-        url: "ajaxCadastro.php",
-        method: "POST",
-        data: { emailUser_cadastro : email},
-        dataType: "json"
-    });
-    
-    request.done(function( data ) {
-        if(data.error){
-          $('#error_emailExistente').fadeIn();
-          $("#btnCad").addClass("disabled"); 
-        }else{
-            $("#btnCad").removeClass("disabled");     
-        }
-    }); 
-}
+        var request = $.ajax({
+            url: "ajaxCadastro.php",
+            method: "POST",
+            data: { emailUser_cadastro : email},
+            dataType: "json"
+        });
+
+        request.done(function( data ) {
+            if(data.error){
+              $('#error_emailExistente').fadeIn();
+              $("#btnCad").addClass("disabled"); 
+            }else{
+                $("#btnCad").removeClass("disabled");     
+            }
+        }); 
+    }
+    }
+   
 
 function readURL(input) {
 
@@ -156,7 +150,6 @@ function validar(){
  *
  * Version: 0.3.6
  */
-
 (function($) {
   var selectors = [];
 
