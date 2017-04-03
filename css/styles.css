@@ -107,10 +107,10 @@ body {
     -webkit-border-radius:0 !important;
 }
  
-footer{
-    background-color: #696969 ;
-    line-height: 200px; 
-    color: white;
+ footer {
+	background-color: #222222;
+	color: white;
+	padding: 15px;			
 }
  
 
