@@ -1,119 +1,17 @@
-<?php
-//BUSCANDO AS CLASSES
-require_once 'classes/usuario.class.php';
-require_once 'classes/conexao.class.php';
-//ESTANCIANDO 
-$objFunc = new Usuario();
-$con = new Conexao();
-//VALIDANDO USUARIO
-session_start();
-if($_SESSION["logado"] == "sim"){
-	$objFunc->UserLogado($_SESSION['user']);
-}else{
-	header("location: index.php"); 
-}
+<?php include "templates/topoL.php"?>
 
-if(isset($_GET['sair']) == "sim"){
-	$objFunc->sairUser();
-}
-
-//SESSIONS
-$email = $_SESSION['user'];
-try{
-    $cst = $con->conectar()->prepare("SELECT `id`, `nick`, `dt_nasc`, `dt_cadastro`, `img_profile` FROM `usuario` WHERE `email` = :email;");
-    $cst->bindParam(':email', $email, PDO::PARAM_STR);
-    $cst->execute();
-        $rst = $cst->fetch();
-        $_SESSION['id'] = $rst['id'];
-        $_SESSION['nick'] = $rst['nick'];
-        $_SESSION['dt_nasc'] = $rst['dt_nasc'];;
-        $_SESSION['nick'] = $rst['nick'];
-        $_SESSION['img_profile'] = $rst['img_profile'];
-
-}catch(PDOException $e){
-    return 'Error: '.$e->getMassage();
-}
-
-?>
-	<html lang="en">
-		<head>
-				<title>Indie Games</title>
-		<meta charset="utf-8">
-		<link rel="shortcut icon" href="logov4.ico" type="image/x-icon" />
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="js/script.js?asases"></script>
-		</head>
-			<body>
-								<!-- MENU -->
-				<nav class="navbar navbar-inverse ">
-					<div class="container-fluid">
-						<div class="navbar-header">
-							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>                        
-							</button>
-							
-							<a class="navbar-static-top" href="#"><img  src="img/logov4.png"   height="52px"  > </a>
-							</div>
-					<div class="collapse navbar-collapse" id="myNavbar">
-					<ul class="nav navbar-nav">
-						<li><a href="#">  Início</a></li>
-			
-							<!-- <li class="navbar-form " ><img  src="logov4.png"  height="36px"  ></img></li> -->
-							</ul>
-							<ul class="nav navbar-nav navbar-right">
-													<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-globe"></span> Notificações</a><ul class="dropdown-menu">
-          <li><a href="#">Avaliação (2)</a></li>
-          <li><a href="#">Comentarios (1) </a></li>
-          <li><a href="#">Seguindo (3)</a></li>
-        </ul>
-      </li>
-
-			<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> <img src="<?php echo "usuarios/".$_SESSION['id']."/uf/".$_SESSION['img_profile']; ?>" class="img-circle" height="21" width="21" alt="Avatar" id="icone_profile"><?php echo $_SESSION['nome']; ?></a>	
-           
-            <ul class="dropdown-menu">
-              <li><a href="#">Perfil</a></li>
-              <li><a href="#">Configurações</a></li>
-                <form method="get">     
-                  <li><button class="btn btn-primary" name="sair">Sair</button></li>
-                </form>
-            </ul>
-          </li>
-
-
-          </ul><center>
-      
-      <form class="navbar-form " role="search">
-        <div class="form-group input-group">
-          <input type="text" class="form-control" placeholder="Procurar...">
-          <span class="input-group-btn">
-            <button class="btn btn-default" type="button">
-              <span class="glyphicon glyphicon-search"></span>
-            </button>
-          </span>        
-        </div>
-      </form></center>
-			
-    </div>
-  </div>
-  </nav>
 								<!-- LADO ESQUERDO -->
 <div class="container text-center">    
   <div class="row">
     <div class="col-sm-3 well">
       <div class="well">
         <p><a href="#">Meu perfil</p>
-        <?php
-        $localft = "usuarios/".$_SESSION['id']."/uf/".$_SESSION['img_profile'];?>
         <img src="<?php
-                    if(file_exists($localft)){
-                        echo $localft;
-                    }else{
+                    if($nm_ft == NULL){
                         echo "img/perfilDefault.jpg";
+                    }else{
+                        $localft = "usuarios/".$_SESSION['id']."/uf/".$nm_ft;
+                        echo $localft;   
                     }                     
                   
                   ?>" id="imgPerfil" class="img-circle" height="65" width="65" alt="Avatar">    
@@ -132,7 +30,16 @@ try{
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                          <img id="blah" src="<?php echo "usuarios/".$_SESSION['id']."/uf/".$_SESSION['img_profile']; ?>" alt="your image" accept='image/*' width="250px">
+                          <img id="blah" src="
+                          <?php 
+                            if($nm_ft == NULL){
+                                echo "img/perfilDefault.jpg";
+                            }else{
+                                $localft = "usuarios/".$_SESSION['id']."/uf/".$nm_ft;
+                                echo $localft;   
+                            }  
+                          
+                          ?>" alt="your image" accept='image/*' width="250px">
                         </div>
                         <input class="btn btn-primary" type='file' name="imgInp" id="imgInp">
                     </div>
